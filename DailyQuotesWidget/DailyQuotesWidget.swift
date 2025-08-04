@@ -42,7 +42,6 @@ struct DailyQuotesWidgetEntryView: View {
     }
 }
 
-@main
 struct DailyQuotesWidget: Widget {
     let kind = "DailyQuotesWidget"
 
