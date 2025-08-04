@@ -1,18 +1,17 @@
 import Foundation
-import WidgetKit
+import AppIntents
 
 struct WidgetSharedData {
     static let appGroupID = "group.com.liadaltif.DailyQuotes"
-    static let selectedKey = "SelectedQuote"
 
-    static func save(_ quote: String) {
+    static func save(_ quote: String, for option: QuoteOption) {
         UserDefaults(suiteName: appGroupID)?
-            .set(quote, forKey: selectedKey)
+            .set(quote, forKey: option.rawValue)
     }
 
-    static func load() -> String {
+    static func load(for option: QuoteOption) -> String {
         UserDefaults(suiteName: appGroupID)?
-            .string(forKey: selectedKey)
-            ?? "ברוך הבא לווידג'ט 📖"
+            .string(forKey: option.rawValue)
+            ?? option.rawValue
     }
 }
