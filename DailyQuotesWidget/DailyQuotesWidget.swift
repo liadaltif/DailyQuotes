@@ -1,31 +1,33 @@
 import WidgetKit
-import AppIntents
 import SwiftUI
 
+// MARK: – Your timeline entry
 struct SimpleEntry: TimelineEntry {
     let date: Date
     let quote: String
 }
 
-struct Provider: AppIntentTimelineProvider {
+// MARK: – Your provider
+struct Provider: TimelineProvider {
     func placeholder(in context: Context) -> SimpleEntry {
         SimpleEntry(date: .now, quote: "📖 ציטוט לדוגמה")
     }
 
-    func snapshot(for configuration: ConfigurationAppIntent, in context: Context) -> SimpleEntry {
-        let quote = WidgetSharedData.load(for: configuration.selectedQuote ?? .tzedek)
-        return SimpleEntry(date: .now, quote: quote)
+    func getSnapshot(in context: Context, completion: @escaping (SimpleEntry) -> Void) {
+        let text = WidgetSharedData.load() ?? QuoteOption.tzedek.rawValue
+        completion(.init(date: .now, quote: text))
     }
 
-    func timeline(for configuration: ConfigurationAppIntent, in context: Context) async -> Timeline<SimpleEntry> {
-        let quote = WidgetSharedData.load(for: configuration.selectedQuote ?? .tzedek)
-        let entry = SimpleEntry(date: .now, quote: quote)
-        return Timeline(entries: [entry], policy: .never)
+    func getTimeline(in context: Context, completion: @escaping (Timeline<SimpleEntry>) -> Void) {
+        let text = WidgetSharedData.load() ?? QuoteOption.tzedek.rawValue
+        let entry = SimpleEntry(date: .now, quote: text)
+        completion(.init(entries: [entry], policy: .never))
     }
 }
 
+// MARK: – Your SwiftUI view
 struct DailyQuotesWidgetEntryView: View {
-    var entry: Provider.Entry
+    let entry: SimpleEntry
 
     var body: some View {
         VStack(alignment: .leading, spacing: 6) {
@@ -42,11 +44,12 @@ struct DailyQuotesWidgetEntryView: View {
     }
 }
 
+// MARK: – Your widget configuration (NO @main here!)
 struct DailyQuotesWidget: Widget {
-    let kind = "DailyQuotesWidget"
+    let kind: String = "DailyQuotesWidget"
 
     var body: some WidgetConfiguration {
-        AppIntentConfiguration(kind: kind, intent: ConfigurationAppIntent.self, provider: Provider()) { entry in
+        StaticConfiguration(kind: kind, provider: Provider()) { entry in
             DailyQuotesWidgetEntryView(entry: entry)
         }
         .configurationDisplayName("ציטוט יומי")

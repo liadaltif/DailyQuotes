@@ -1,5 +1,6 @@
+// WidgetSelectionView.swift
+
 import SwiftUI
-import AppIntents
 import WidgetKit
 
 struct WidgetSelectionView: View {
@@ -7,19 +8,16 @@ struct WidgetSelectionView: View {
 
     @State private var showSheet = false
     @State private var selected: QuoteOption?
-    @State private var widgetQuote: QuoteOption?
 
     var body: some View {
         NavigationView {
             ScrollView {
-                LazyVGrid(
-                    columns: [GridItem(.adaptive(minimum: 160), spacing: 16)],
-                    spacing: 16
-                ) {
+                LazyVGrid(columns: [GridItem(.adaptive(minimum: 160), spacing: 16)], spacing: 16) {
                     ForEach(quotes, id: \.self) { quote in
                         Button {
                             selected = quote
                             showSheet = true
+                            print("🐛 [App] tapped preview for “\(quote.rawValue)”")
                         } label: {
                             WidgetPreviewCard(quote: quote.rawValue)
                         }
@@ -29,8 +27,18 @@ struct WidgetSelectionView: View {
                 .navigationTitle("בחר ציטוט לווידג'ט")
             }
         }
-        .onContinueUserActivity(ConfigurationAppIntent.self) { intent in
-            widgetQuote = intent.selectedQuote
+        // deep-link from your .widgetURL(...)
+        .onOpenURL { url in
+            guard url.scheme == "dailyquotes", url.host == "configure" else { return }
+            // Pre‐load the current quote so the user sees it in the sheet
+            if let raw = WidgetSharedData.load(),
+               let existing = QuoteOption(rawValue: raw) {
+                selected = existing
+            } else {
+                selected = .tzedek
+            }
+            showSheet = true
+            print("🐛 [App] onOpenURL → showing sheet with selected = \(selected!.rawValue)")
         }
         .sheet(isPresented: $showSheet) {
             VStack(spacing: 20) {
@@ -38,15 +46,17 @@ struct WidgetSelectionView: View {
                     .font(.title2)
                     .multilineTextAlignment(.center)
 
-                Text("השינוי יחול על הווידג'ט שנפתח.")
-                    .multilineTextAlignment(.center)
+                // show current selection
+                if let sel = selected {
+                    Text("הציטוט הנוכחי הוא:\n“\(sel.rawValue)”")
+                        .multilineTextAlignment(.center)
+                }
 
                 Button("עדכן") {
-                    if let selected {
-                        let target = widgetQuote ?? selected
-                        WidgetSharedData.save(selected.rawValue, for: target)
-                        WidgetCenter.shared.reloadTimelines(ofKind: "DailyQuotesWidget")
-                    }
+                    guard let newQuote = selected else { return }
+                    print("🐛 [App] saving new quote “\(newQuote.rawValue)”")
+                    WidgetSharedData.save(newQuote.rawValue)
+                    WidgetCenter.shared.reloadTimelines(ofKind: "DailyQuotesWidget")
                     showSheet = false
                 }
                 .buttonStyle(.borderedProminent)

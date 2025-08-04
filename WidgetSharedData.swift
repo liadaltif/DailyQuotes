@@ -1,17 +1,29 @@
+// WidgetSharedData.swift
+
 import Foundation
-import AppIntents
 
 struct WidgetSharedData {
-    static let appGroupID = "group.com.liadaltif.DailyQuotes"
+    private static let suiteName = "group.com.liadaltif.DailyQuotes"
+    private static let globalKey = "currentQuote"
 
-    static func save(_ quote: String, for option: QuoteOption) {
-        UserDefaults(suiteName: appGroupID)?
-            .set(quote, forKey: option.rawValue)
+    private static var defaults: UserDefaults? {
+        let ud = UserDefaults(suiteName: suiteName)
+        if ud == nil {
+            print("⚠️ [WidgetSharedData] ⚠️ UserDefaults(suiteName:\(suiteName)) is nil")
+        }
+        return ud
     }
 
-    static func load(for option: QuoteOption) -> String {
-        UserDefaults(suiteName: appGroupID)?
-            .string(forKey: option.rawValue)
-            ?? option.rawValue
+    static func save(_ quote: String) {
+        guard let ud = defaults else { return }
+        ud.set(quote, forKey: globalKey)
+        print("🐛 [WidgetSharedData] Saved “\(quote)” as global quote")
+    }
+
+    static func load() -> String? {
+        guard let ud = defaults else { return nil }
+        let q = ud.string(forKey: globalKey)
+        print("🐛 [WidgetSharedData] Loaded “\(q ?? "nil")” from global quote")
+        return q
     }
 }

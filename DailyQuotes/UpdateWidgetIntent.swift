@@ -10,7 +10,8 @@ struct UpdateWidgetIntent: AppIntent {
     static var openAppWhenRun = false
 
     func perform() async throws -> some IntentResult {
-        WidgetSharedData.save(selectedQuote.rawValue, for: selectedQuote)
+        // Call the new single-argument save(_:) signature
+        WidgetSharedData.save(selectedQuote.rawValue)
         WidgetCenter.shared.reloadTimelines(ofKind: "DailyQuotesWidget")
         return .result()
     }

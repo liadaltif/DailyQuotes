@@ -15,6 +15,7 @@
 		1C6E23932E40F325009D09CE /* WidgetSharedData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C6E23912E40F16E009D09CE /* WidgetSharedData.swift */; };
 		1CA988CD2E410A7E00833E22 /* SharedQuoteOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CA988CC2E410A7600833E22 /* SharedQuoteOption.swift */; };
 		1CA988D12E410B8500833E22 /* SharedQuoteOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CA988CC2E410A7600833E22 /* SharedQuoteOption.swift */; };
+		1CA988ED2E41532F00833E22 /* WidgetType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C6E23862E40E6CF009D09CE /* WidgetType.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -60,11 +61,21 @@
 			);
 			target = 1C6E23682E40E32B009D09CE /* DailyQuotesWidgetExtension */;
 		};
+		1CA988EF2E4158C600833E22 /* Exceptions for "DailyQuotes" folder in "DailyQuotes" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 1C6E23562E40E1AF009D09CE /* DailyQuotes */;
+		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		1C6E23592E40E1AF009D09CE /* DailyQuotes */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				1CA988EF2E4158C600833E22 /* Exceptions for "DailyQuotes" folder in "DailyQuotes" target */,
+			);
 			path = DailyQuotes;
 			sourceTree = "<group>";
 		};
@@ -251,6 +262,7 @@
 			files = (
 				1C6E23932E40F325009D09CE /* WidgetSharedData.swift in Sources */,
 				1CA988CD2E410A7E00833E22 /* SharedQuoteOption.swift in Sources */,
+				1CA988ED2E41532F00833E22 /* WidgetType.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -397,6 +409,7 @@
 				DEVELOPMENT_TEAM = 4D3NZLRJL9;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = DailyQuotes/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -426,6 +439,7 @@
 				DEVELOPMENT_TEAM = 4D3NZLRJL9;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = DailyQuotes/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
