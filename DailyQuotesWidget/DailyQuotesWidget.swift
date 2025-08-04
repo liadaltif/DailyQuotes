@@ -13,12 +13,12 @@ struct Provider: AppIntentTimelineProvider {
     }
 
     func snapshot(for configuration: ConfigurationAppIntent, in context: Context) -> SimpleEntry {
-        let quote = WidgetSharedData.load(for: configuration.selectedQuote)
+        let quote = WidgetSharedData.load(for: configuration.selectedQuote ?? .tzedek)
         return SimpleEntry(date: .now, quote: quote)
     }
 
     func timeline(for configuration: ConfigurationAppIntent, in context: Context) async -> Timeline<SimpleEntry> {
-        let quote = WidgetSharedData.load(for: configuration.selectedQuote)
+        let quote = WidgetSharedData.load(for: configuration.selectedQuote ?? .tzedek)
         let entry = SimpleEntry(date: .now, quote: quote)
         return Timeline(entries: [entry], policy: .never)
     }
