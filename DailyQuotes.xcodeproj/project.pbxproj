@@ -16,6 +16,8 @@
 		1CA988CD2E410A7E00833E22 /* SharedQuoteOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CA988CC2E410A7600833E22 /* SharedQuoteOption.swift */; };
 		1CA988D12E410B8500833E22 /* SharedQuoteOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CA988CC2E410A7600833E22 /* SharedQuoteOption.swift */; };
 		1CA988ED2E41532F00833E22 /* WidgetType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C6E23862E40E6CF009D09CE /* WidgetType.swift */; };
+		1CA9890F2E43A14100833E22 /* TehillimViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CA9890E2E43A14100833E22 /* TehillimViewModel.swift */; };
+		1CA989102E43A14100833E22 /* TehillimViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CA9890E2E43A14100833E22 /* TehillimViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +53,7 @@
 		1C6E23912E40F16E009D09CE /* WidgetSharedData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetSharedData.swift; sourceTree = "<group>"; };
 		1CA988CB2E40FF5400833E22 /* DailyQuotesWidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = DailyQuotesWidgetExtension.entitlements; sourceTree = "<group>"; };
 		1CA988CC2E410A7600833E22 /* SharedQuoteOption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedQuoteOption.swift; sourceTree = "<group>"; };
+		1CA9890E2E43A14100833E22 /* TehillimViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TehillimViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -112,6 +115,7 @@
 		1C6E234E2E40E1AF009D09CE = {
 			isa = PBXGroup;
 			children = (
+				1CA9890E2E43A14100833E22 /* TehillimViewModel.swift */,
 				1CA988CC2E410A7600833E22 /* SharedQuoteOption.swift */,
 				1CA988CB2E40FF5400833E22 /* DailyQuotesWidgetExtension.entitlements */,
 				1C6E23912E40F16E009D09CE /* WidgetSharedData.swift */,
@@ -252,6 +256,7 @@
 			files = (
 				1CA988D12E410B8500833E22 /* SharedQuoteOption.swift in Sources */,
 				1C6E23922E40F174009D09CE /* WidgetSharedData.swift in Sources */,
+				1CA9890F2E43A14100833E22 /* TehillimViewModel.swift in Sources */,
 				1C6E23872E40E6CF009D09CE /* WidgetType.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -262,6 +267,7 @@
 			files = (
 				1C6E23932E40F325009D09CE /* WidgetSharedData.swift in Sources */,
 				1CA988CD2E410A7E00833E22 /* SharedQuoteOption.swift in Sources */,
+				1CA989102E43A14100833E22 /* TehillimViewModel.swift in Sources */,
 				1CA988ED2E41532F00833E22 /* WidgetType.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
