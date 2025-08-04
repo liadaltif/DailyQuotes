@@ -7,6 +7,7 @@ struct WidgetSelectionView: View {
 
     @State private var showSheet = false
     @State private var selected: QuoteOption?
+    @State private var widgetQuote: QuoteOption?
 
     var body: some View {
         NavigationView {
@@ -28,18 +29,22 @@ struct WidgetSelectionView: View {
                 .navigationTitle("בחר ציטוט לווידג'ט")
             }
         }
+        .onContinueUserActivity(ConfigurationAppIntent.self) { intent in
+            widgetQuote = intent.selectedQuote
+        }
         .sheet(isPresented: $showSheet) {
             VStack(spacing: 20) {
                 Text("להוסיף / לעדכן את הווידג'ט?")
                     .font(.title2)
                     .multilineTextAlignment(.center)
 
-                Text("השינוי יחול על הווידג'טים שמוגדרים עם הציטוט שנבחר.")
+                Text("השינוי יחול על הווידג'ט שנפתח.")
                     .multilineTextAlignment(.center)
 
                 Button("עדכן") {
                     if let selected {
-                        WidgetSharedData.save(selected.rawValue, for: selected)
+                        let target = widgetQuote ?? selected
+                        WidgetSharedData.save(selected.rawValue, for: target)
                         WidgetCenter.shared.reloadTimelines(ofKind: "DailyQuotesWidget")
                     }
                     showSheet = false
