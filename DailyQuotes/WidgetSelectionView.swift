@@ -1,17 +1,12 @@
 import SwiftUI
+import AppIntents
 import WidgetKit
 
 struct WidgetSelectionView: View {
-    private let quotes = [
-        "צדק צדק תרדוף",
-        "תן בראש היום!",
-        "שקט זה כוח.",
-        "הגלים שרים שיר",
-        "יאללה, מתחילים 😄"
-    ]
+    private let quotes = QuoteOption.allCases
 
     @State private var showSheet = false
-    @State private var selected = ""
+    @State private var selected: QuoteOption?
 
     var body: some View {
         NavigationView {
@@ -25,7 +20,7 @@ struct WidgetSelectionView: View {
                             selected = quote
                             showSheet = true
                         } label: {
-                            WidgetPreviewCard(quote: quote)
+                            WidgetPreviewCard(quote: quote.rawValue)
                         }
                     }
                 }
@@ -39,12 +34,14 @@ struct WidgetSelectionView: View {
                     .font(.title2)
                     .multilineTextAlignment(.center)
 
-                Text("השינוי יחול על כל העתקי הווידג'ט במכשיר.")
+                Text("השינוי יחול על הווידג'טים שמוגדרים עם הציטוט שנבחר.")
                     .multilineTextAlignment(.center)
 
                 Button("עדכן") {
-                    WidgetSharedData.save(selected)
-                    WidgetCenter.shared.reloadAllTimelines()
+                    if let selected {
+                        WidgetSharedData.save(selected.rawValue, for: selected)
+                        WidgetCenter.shared.reloadTimelines(ofKind: "DailyQuotesWidget")
+                    }
                     showSheet = false
                 }
                 .buttonStyle(.borderedProminent)
