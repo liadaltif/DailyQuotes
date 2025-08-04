@@ -1,8 +1,3 @@
-//
-//  DailyQuotesWidgetBundle.swift
-//  DailyQuotesWidgetExtension
-//
-
 import WidgetKit
 import SwiftUI
 
@@ -11,6 +6,5 @@ struct DailyQuotesWidgetBundle: WidgetBundle {
     @WidgetBundleBuilder
     var body: some Widget {
         DailyQuotesWidget()
-        DailyQuotesWidgetControl()
     }
 }
