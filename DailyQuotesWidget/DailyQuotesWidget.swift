@@ -1,4 +1,5 @@
 import WidgetKit
+import AppIntents
 import SwiftUI
 
 struct SimpleEntry: TimelineEntry {
@@ -6,18 +7,20 @@ struct SimpleEntry: TimelineEntry {
     let quote: String
 }
 
-struct Provider: TimelineProvider {
+struct Provider: AppIntentTimelineProvider {
     func placeholder(in context: Context) -> SimpleEntry {
         SimpleEntry(date: .now, quote: "📖 ציטוט לדוגמה")
     }
 
-    func getSnapshot(in context: Context, completion: @escaping (SimpleEntry) -> Void) {
-        completion(SimpleEntry(date: .now, quote: WidgetSharedData.load()))
+    func snapshot(for configuration: ConfigurationAppIntent, in context: Context) -> SimpleEntry {
+        let quote = WidgetSharedData.load(for: configuration.selectedQuote ?? .tzedek)
+        return SimpleEntry(date: .now, quote: quote)
     }
 
-    func getTimeline(in context: Context, completion: @escaping (Timeline<SimpleEntry>) -> Void) {
-        let entry = SimpleEntry(date: .now, quote: WidgetSharedData.load())
-        completion(Timeline(entries: [entry], policy: .never))
+    func timeline(for configuration: ConfigurationAppIntent, in context: Context) async -> Timeline<SimpleEntry> {
+        let quote = WidgetSharedData.load(for: configuration.selectedQuote ?? .tzedek)
+        let entry = SimpleEntry(date: .now, quote: quote)
+        return Timeline(entries: [entry], policy: .never)
     }
 }
 
@@ -39,12 +42,11 @@ struct DailyQuotesWidgetEntryView: View {
     }
 }
 
-@main
 struct DailyQuotesWidget: Widget {
     let kind = "DailyQuotesWidget"
 
     var body: some WidgetConfiguration {
-        StaticConfiguration(kind: kind, provider: Provider()) { entry in
+        AppIntentConfiguration(kind: kind, intent: ConfigurationAppIntent.self, provider: Provider()) { entry in
             DailyQuotesWidgetEntryView(entry: entry)
         }
         .configurationDisplayName("ציטוט יומי")
