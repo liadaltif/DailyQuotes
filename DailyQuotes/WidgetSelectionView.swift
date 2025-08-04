@@ -1,6 +1,7 @@
 import SwiftUI
 import AppIntents
 import WidgetKit
+import Intents
 
 struct WidgetSelectionView: View {
     private let quotes = QuoteOption.allCases
@@ -29,8 +30,10 @@ struct WidgetSelectionView: View {
                 .navigationTitle("בחר ציטוט לווידג'ט")
             }
         }
-        .onContinueUserActivity(ConfigurationAppIntent.self) { intent in
-            widgetQuote = intent.selectedQuote
+        .onContinueUserActivity("ConfigurationAppIntent") { activity in
+            if let intent = activity.interaction?.intent as? ConfigurationAppIntent {
+                widgetQuote = intent.selectedQuote
+            }
         }
         .sheet(isPresented: $showSheet) {
             VStack(spacing: 20) {
