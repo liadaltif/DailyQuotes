@@ -1,42 +1,40 @@
 import WidgetKit
 import SwiftUI
 
-// MARK: – Your timeline entry
 struct SimpleEntry: TimelineEntry {
     let date: Date
-    let quote: String
+    let verse: String
+    let profile: WidgetProfile
 }
 
-// MARK: – Your provider
-struct Provider: TimelineProvider {
+struct Provider: AppIntentTimelineProvider {
     func placeholder(in context: Context) -> SimpleEntry {
-        SimpleEntry(date: .now, quote: "📖 ציטוט לדוגמה")
+        let sample = WidgetProfile(name: "דוגמה", color: CodableColor(.primary), textSize: 16)
+        return SimpleEntry(date: .now, verse: "פסוק לדוגמה", profile: sample)
     }
 
-    func getSnapshot(in context: Context, completion: @escaping (SimpleEntry) -> Void) {
-        let text = WidgetSharedData.load() ?? QuoteOption.tzedek.rawValue
-        completion(.init(date: .now, quote: text))
+    func snapshot(for configuration: ConfigurationAppIntent, in context: Context) async -> SimpleEntry {
+        let verse = await TehillimService.fetchRandomVerse()
+        let profile = configuration.profile?.profile ?? WidgetProfile(name: "ברירת מחדל", color: CodableColor(.primary), textSize: 16)
+        return SimpleEntry(date: .now, verse: verse, profile: profile)
     }
 
-    func getTimeline(in context: Context, completion: @escaping (Timeline<SimpleEntry>) -> Void) {
-        let text = WidgetSharedData.load() ?? QuoteOption.tzedek.rawValue
-        let entry = SimpleEntry(date: .now, quote: text)
-        completion(.init(entries: [entry], policy: .never))
+    func timeline(for configuration: ConfigurationAppIntent, in context: Context) async -> Timeline<SimpleEntry> {
+        let verse = await TehillimService.fetchRandomVerse()
+        let profile = configuration.profile?.profile ?? WidgetProfile(name: "ברירת מחדל", color: CodableColor(.primary), textSize: 16)
+        let entry = SimpleEntry(date: .now, verse: verse, profile: profile)
+        return Timeline(entries: [entry], policy: .never)
     }
 }
 
-// MARK: – Your SwiftUI view
 struct DailyQuotesWidgetEntryView: View {
-    let entry: SimpleEntry
+    var entry: Provider.Entry
 
     var body: some View {
         VStack(alignment: .leading, spacing: 6) {
-            Text("🕊️ ציטוט יומי")
-                .font(.caption)
-                .foregroundColor(.secondary)
-
-            Text("“\(entry.quote)”")
-                .font(.body)
+            Text(entry.verse)
+                .font(.system(size: CGFloat(entry.profile.textSize)))
+                .foregroundColor(entry.profile.color.color)
                 .fixedSize(horizontal: false, vertical: true)
         }
         .padding()
@@ -44,16 +42,15 @@ struct DailyQuotesWidgetEntryView: View {
     }
 }
 
-// MARK: – Your widget configuration (NO @main here!)
 struct DailyQuotesWidget: Widget {
     let kind: String = "DailyQuotesWidget"
 
     var body: some WidgetConfiguration {
-        StaticConfiguration(kind: kind, provider: Provider()) { entry in
+        AppIntentConfiguration(kind: kind, intent: ConfigurationAppIntent.self, provider: Provider()) { entry in
             DailyQuotesWidgetEntryView(entry: entry)
         }
-        .configurationDisplayName("ציטוט יומי")
-        .description("הצג ציטוט מעורר השראה")
+        .configurationDisplayName("פסוק יומי")
+        .description("הצג פסוק מתהילים לפי פרופיל")
         .supportedFamilies([.systemSmall, .systemMedium])
     }
 }
