@@ -23,8 +23,13 @@ struct ProfileListView: View {
             }
             .navigationTitle("Profiles")
             .toolbar {
-                Button(action: { showEditor = true }) {
-                    Image(systemName: "plus")
+                ToolbarItem(placement: .navigationBarLeading) {
+                    EditButton()
+                }
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button(action: { showEditor = true }) {
+                        Image(systemName: "plus")
+                    }
                 }
             }
         }
