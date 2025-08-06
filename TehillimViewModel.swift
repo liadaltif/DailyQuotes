@@ -6,7 +6,7 @@ class TehillimViewModel: ObservableObject {
 
     func getRandomVerse() {
         Task {
-            verse = await TehillimService.fetchRandomVerse()
+            verse = await NewTehillimService.fetchRandomVerse()
         }
     }
 }

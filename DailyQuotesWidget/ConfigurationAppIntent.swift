@@ -5,5 +5,5 @@ struct ConfigurationAppIntent: WidgetConfigurationIntent {
     static var title: LocalizedStringResource = "הגדר את הווידג'ט"
 
     @Parameter(title: "בחר פרופיל")
-    var profile: ProfileEntity?
+    var profile: NewProfileEntity?
 }

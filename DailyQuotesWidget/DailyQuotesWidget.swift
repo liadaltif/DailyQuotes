@@ -14,13 +14,13 @@ struct Provider: AppIntentTimelineProvider {
     }
 
     func snapshot(for configuration: ConfigurationAppIntent, in context: Context) async -> SimpleEntry {
-        let verse = await TehillimService.fetchRandomVerse()
+        let verse = await NewTehillimService.fetchRandomVerse()
         let profile = configuration.profile?.profile ?? NewWidgetProfile(name: "ברירת מחדל", color: CodableColor(.primary), textSize: 16)
         return SimpleEntry(date: .now, verse: verse, profile: profile)
     }
 
     func timeline(for configuration: ConfigurationAppIntent, in context: Context) async -> Timeline<SimpleEntry> {
-        let verse = await TehillimService.fetchRandomVerse()
+        let verse = await NewTehillimService.fetchRandomVerse()
         let profile = configuration.profile?.profile ?? NewWidgetProfile(name: "ברירת מחדל", color: CodableColor(.primary), textSize: 16)
         let entry = SimpleEntry(date: .now, verse: verse, profile: profile)
         return Timeline(entries: [entry], policy: .never)

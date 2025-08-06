@@ -1,5 +1,5 @@
 //
-//  ProfileEntity 2.swift
+//  NewProfileEntity 2.swift
 //  DailyQuotes
 //
 //  Created by Liad Altif on 06/08/2025.
@@ -9,9 +9,9 @@
 import AppIntents
 import SwiftUI
 
-struct ProfileEntity: AppEntity, Identifiable {
+struct NewProfileEntity: AppEntity, Identifiable {
     static var typeDisplayRepresentation = TypeDisplayRepresentation(name: "Profile")
-    static var defaultQuery = ProfileEntityQuery()
+    static var defaultQuery = NewProfileEntityQuery()
 
     let id: UUID
     let name: String
@@ -34,13 +34,13 @@ struct ProfileEntity: AppEntity, Identifiable {
     }
 }
 
-struct ProfileEntityQuery: EntityQuery {
-    func entities(for identifiers: [UUID]) async throws -> [ProfileEntity] {
-        let profiles = ProfileManager.load().map(ProfileEntity.init)
+struct NewProfileEntityQuery: EntityQuery {
+    func entities(for identifiers: [UUID]) async throws -> [NewProfileEntity] {
+        let profiles = NewProfileManager.load().map(NewProfileEntity.init)
         return profiles.filter { identifiers.contains($0.id) }
     }
 
-    func suggestedEntities() async throws -> [ProfileEntity] {
-        ProfileManager.load().map(ProfileEntity.init)
+    func suggestedEntities() async throws -> [NewProfileEntity] {
+        NewProfileManager.load().map(NewProfileEntity.init)
     }
 }

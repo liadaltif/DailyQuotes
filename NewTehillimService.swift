@@ -1,5 +1,5 @@
 //
-//  TehillimService 2.swift
+//  NewTehillimService 2.swift
 //  DailyQuotes
 //
 //  Created by Liad Altif on 06/08/2025.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum TehillimService {
+enum NewTehillimService {
     static func fetchRandomVerse() async -> String {
         let chapter = Int.random(in: 1...150)
         let urlString = "https://www.sefaria.org/api/texts/Psalms.\(chapter)?lang=he"

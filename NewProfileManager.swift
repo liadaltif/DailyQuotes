@@ -1,5 +1,5 @@
 //
-//  ProfileManager 2.swift
+//  NewProfileManager 2.swift
 //  DailyQuotes
 //
 //  Created by Liad Altif on 06/08/2025.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct ProfileManager {
+struct NewProfileManager {
     private static let suiteName = "group.com.liadaltif.DailyQuotes"
     private static let key = "profiles"
 

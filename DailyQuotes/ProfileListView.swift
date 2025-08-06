@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct ProfileListView: View {
-    @State private var profiles: [NewWidgetProfile] = ProfileManager.load()
+    @State private var profiles: [NewWidgetProfile] = NewProfileManager.load()
     @State private var showEditor = false
 
     var body: some View {
@@ -18,7 +18,7 @@ struct ProfileListView: View {
                 }
                 .onDelete { indexSet in
                     profiles.remove(atOffsets: indexSet)
-                    ProfileManager.save(profiles)
+                    NewProfileManager.save(profiles)
                 }
             }
             .navigationTitle("Profiles")
@@ -31,7 +31,7 @@ struct ProfileListView: View {
         .sheet(isPresented: $showEditor) {
             ProfileEditorView { profile in
                 profiles.append(profile)
-                ProfileManager.save(profiles)
+                NewProfileManager.save(profiles)
             }
         }
     }
