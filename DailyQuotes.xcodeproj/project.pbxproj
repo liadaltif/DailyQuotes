@@ -13,6 +13,8 @@
 		1C4F866A2E43ACBA00CFCC75 /* NewProfileEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C4F86682E43ACBA00CFCC75 /* NewProfileEntity.swift */; };
 		1C4F866C2E43B1A400CFCC75 /* NewTehillimService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C4F866B2E43B1A400CFCC75 /* NewTehillimService.swift */; };
 		1C4F866D2E43B1A400CFCC75 /* NewTehillimService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C4F866B2E43B1A400CFCC75 /* NewTehillimService.swift */; };
+		1C4F866F2E43B22D00CFCC75 /* NewProfileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C4F866E2E43B22D00CFCC75 /* NewProfileManager.swift */; };
+		1C4F86702E43B22D00CFCC75 /* NewProfileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C4F866E2E43B22D00CFCC75 /* NewProfileManager.swift */; };
 		1C6E236C2E40E32B009D09CE /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C6E236B2E40E32B009D09CE /* WidgetKit.framework */; };
 		1C6E236E2E40E32B009D09CE /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C6E236D2E40E32B009D09CE /* SwiftUI.framework */; };
 		1C6E237F2E40E32C009D09CE /* DailyQuotesWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 1C6E23692E40E32B009D09CE /* DailyQuotesWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -54,6 +56,7 @@
 		1C4F86652E43AA6600CFCC75 /* NewWidgetProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewWidgetProfile.swift; sourceTree = "<group>"; };
 		1C4F86682E43ACBA00CFCC75 /* NewProfileEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewProfileEntity.swift; sourceTree = "<group>"; };
 		1C4F866B2E43B1A400CFCC75 /* NewTehillimService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewTehillimService.swift; sourceTree = "<group>"; };
+		1C4F866E2E43B22D00CFCC75 /* NewProfileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewProfileManager.swift; sourceTree = "<group>"; };
 		1C6E23572E40E1AF009D09CE /* DailyQuotes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DailyQuotes.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1C6E23692E40E32B009D09CE /* DailyQuotesWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = DailyQuotesWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		1C6E236B2E40E32B009D09CE /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
@@ -136,6 +139,7 @@
 				1C6E236F2E40E32B009D09CE /* DailyQuotesWidget */,
 				1C6E236A2E40E32B009D09CE /* Frameworks */,
 				1C6E23582E40E1AF009D09CE /* Products */,
+				1C4F866E2E43B22D00CFCC75 /* NewProfileManager.swift */,
 			);
 			sourceTree = "<group>";
 		};
@@ -272,6 +276,7 @@
 				1C4F86692E43ACBA00CFCC75 /* NewProfileEntity.swift in Sources */,
 				1CA9890F2E43A14100833E22 /* TehillimViewModel.swift in Sources */,
 				1C6E23872E40E6CF009D09CE /* WidgetType.swift in Sources */,
+				1C4F86702E43B22D00CFCC75 /* NewProfileManager.swift in Sources */,
 				1C4F86662E43AA6600CFCC75 /* NewWidgetProfile.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -285,6 +290,7 @@
 				1C4F866A2E43ACBA00CFCC75 /* NewProfileEntity.swift in Sources */,
 				1C4F866D2E43B1A400CFCC75 /* NewTehillimService.swift in Sources */,
 				1CA989102E43A14100833E22 /* TehillimViewModel.swift in Sources */,
+				1C4F866F2E43B22D00CFCC75 /* NewProfileManager.swift in Sources */,
 				1CA988ED2E41532F00833E22 /* WidgetType.swift in Sources */,
 				1C4F86672E43AA6600CFCC75 /* NewWidgetProfile.swift in Sources */,
 			);
