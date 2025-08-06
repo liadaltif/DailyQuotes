@@ -15,7 +15,7 @@ struct DailyQuotesApp: App {
 
     var body: some Scene {
         WindowGroup {
-            WidgetSelectionView()
+            ContentView()
         }
     }
 }

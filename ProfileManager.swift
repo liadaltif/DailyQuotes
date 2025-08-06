@@ -1,0 +1,20 @@
+import Foundation
+
+struct ProfileManager {
+    private static let suiteName = "group.com.liadaltif.DailyQuotes"
+    private static let key = "profiles"
+
+    private static var defaults: UserDefaults? {
+        UserDefaults(suiteName: suiteName)
+    }
+
+    static func load() -> [WidgetProfile] {
+        guard let data = defaults?.data(forKey: key) else { return [] }
+        return (try? JSONDecoder().decode([WidgetProfile].self, from: data)) ?? []
+    }
+
+    static func save(_ profiles: [WidgetProfile]) {
+        guard let data = try? JSONEncoder().encode(profiles) else { return }
+        defaults?.set(data, forKey: key)
+    }
+}
