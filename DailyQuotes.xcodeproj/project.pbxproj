@@ -11,6 +11,8 @@
 		1C4F86672E43AA6600CFCC75 /* NewWidgetProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C4F86652E43AA6600CFCC75 /* NewWidgetProfile.swift */; };
 		1C4F86692E43ACBA00CFCC75 /* NewProfileEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C4F86682E43ACBA00CFCC75 /* NewProfileEntity.swift */; };
 		1C4F866A2E43ACBA00CFCC75 /* NewProfileEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C4F86682E43ACBA00CFCC75 /* NewProfileEntity.swift */; };
+		1C4F866C2E43B1A400CFCC75 /* NewTehillimService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C4F866B2E43B1A400CFCC75 /* NewTehillimService.swift */; };
+		1C4F866D2E43B1A400CFCC75 /* NewTehillimService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C4F866B2E43B1A400CFCC75 /* NewTehillimService.swift */; };
 		1C6E236C2E40E32B009D09CE /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C6E236B2E40E32B009D09CE /* WidgetKit.framework */; };
 		1C6E236E2E40E32B009D09CE /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C6E236D2E40E32B009D09CE /* SwiftUI.framework */; };
 		1C6E237F2E40E32C009D09CE /* DailyQuotesWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 1C6E23692E40E32B009D09CE /* DailyQuotesWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -51,6 +53,7 @@
 /* Begin PBXFileReference section */
 		1C4F86652E43AA6600CFCC75 /* NewWidgetProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewWidgetProfile.swift; sourceTree = "<group>"; };
 		1C4F86682E43ACBA00CFCC75 /* NewProfileEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewProfileEntity.swift; sourceTree = "<group>"; };
+		1C4F866B2E43B1A400CFCC75 /* NewTehillimService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewTehillimService.swift; sourceTree = "<group>"; };
 		1C6E23572E40E1AF009D09CE /* DailyQuotes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DailyQuotes.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1C6E23692E40E32B009D09CE /* DailyQuotesWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = DailyQuotesWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		1C6E236B2E40E32B009D09CE /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
@@ -126,6 +129,7 @@
 				1CA988CC2E410A7600833E22 /* SharedQuoteOption.swift */,
 				1CA988CB2E40FF5400833E22 /* DailyQuotesWidgetExtension.entitlements */,
 				1C6E23912E40F16E009D09CE /* WidgetSharedData.swift */,
+				1C4F866B2E43B1A400CFCC75 /* NewTehillimService.swift */,
 				1C4F86682E43ACBA00CFCC75 /* NewProfileEntity.swift */,
 				1C6E23862E40E6CF009D09CE /* WidgetType.swift */,
 				1C6E23592E40E1AF009D09CE /* DailyQuotes */,
@@ -264,6 +268,7 @@
 			files = (
 				1CA988D12E410B8500833E22 /* SharedQuoteOption.swift in Sources */,
 				1C6E23922E40F174009D09CE /* WidgetSharedData.swift in Sources */,
+				1C4F866C2E43B1A400CFCC75 /* NewTehillimService.swift in Sources */,
 				1C4F86692E43ACBA00CFCC75 /* NewProfileEntity.swift in Sources */,
 				1CA9890F2E43A14100833E22 /* TehillimViewModel.swift in Sources */,
 				1C6E23872E40E6CF009D09CE /* WidgetType.swift in Sources */,
@@ -278,6 +283,7 @@
 				1C6E23932E40F325009D09CE /* WidgetSharedData.swift in Sources */,
 				1CA988CD2E410A7E00833E22 /* SharedQuoteOption.swift in Sources */,
 				1C4F866A2E43ACBA00CFCC75 /* NewProfileEntity.swift in Sources */,
+				1C4F866D2E43B1A400CFCC75 /* NewTehillimService.swift in Sources */,
 				1CA989102E43A14100833E22 /* TehillimViewModel.swift in Sources */,
 				1CA988ED2E41532F00833E22 /* WidgetType.swift in Sources */,
 				1C4F86672E43AA6600CFCC75 /* NewWidgetProfile.swift in Sources */,
