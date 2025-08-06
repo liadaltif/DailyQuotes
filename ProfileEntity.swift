@@ -10,15 +10,15 @@ struct ProfileEntity: AppEntity, Identifiable {
     let color: CodableColor
     let textSize: Double
 
-    init(profile: WidgetProfile) {
+    init(profile: NewWidgetProfile) {
         self.id = profile.id
         self.name = profile.name
         self.color = profile.color
         self.textSize = profile.textSize
     }
 
-    var profile: WidgetProfile {
-        WidgetProfile(id: id, name: name, color: color, textSize: textSize)
+    var profile: NewWidgetProfile {
+        NewWidgetProfile(id: id, name: name, color: color, textSize: textSize)
     }
 
     var displayRepresentation: DisplayRepresentation {

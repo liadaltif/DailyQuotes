@@ -8,12 +8,12 @@ struct ProfileManager {
         UserDefaults(suiteName: suiteName)
     }
 
-    static func load() -> [WidgetProfile] {
+    static func load() -> [NewWidgetProfile] {
         guard let data = defaults?.data(forKey: key) else { return [] }
-        return (try? JSONDecoder().decode([WidgetProfile].self, from: data)) ?? []
+        return (try? JSONDecoder().decode([NewWidgetProfile].self, from: data)) ?? []
     }
 
-    static func save(_ profiles: [WidgetProfile]) {
+    static func save(_ profiles: [NewWidgetProfile]) {
         guard let data = try? JSONEncoder().encode(profiles) else { return }
         defaults?.set(data, forKey: key)
     }

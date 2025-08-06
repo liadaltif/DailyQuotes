@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct ProfileListView: View {
-    @State private var profiles: [WidgetProfile] = ProfileManager.load()
+    @State private var profiles: [NewWidgetProfile] = ProfileManager.load()
     @State private var showEditor = false
 
     var body: some View {
@@ -43,7 +43,7 @@ struct ProfileEditorView: View {
     @State private var color: Color = .primary
     @State private var textSize: Double = 16
 
-    var onSave: (WidgetProfile) -> Void
+    var onSave: (NewWidgetProfile) -> Void
 
     var body: some View {
         NavigationView {
@@ -62,7 +62,7 @@ struct ProfileEditorView: View {
                 }
                 ToolbarItem(placement: .confirmationAction) {
                     Button("Save") {
-                        let profile = WidgetProfile(name: name, color: CodableColor(color), textSize: textSize)
+                        let profile = NewWidgetProfile(name: name, color: CodableColor(color), textSize: textSize)
                         onSave(profile)
                         dismiss()
                     }

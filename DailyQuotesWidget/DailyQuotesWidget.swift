@@ -4,24 +4,24 @@ import SwiftUI
 struct SimpleEntry: TimelineEntry {
     let date: Date
     let verse: String
-    let profile: WidgetProfile
+    let profile: NewWidgetProfile
 }
 
 struct Provider: AppIntentTimelineProvider {
     func placeholder(in context: Context) -> SimpleEntry {
-        let sample = WidgetProfile(name: "דוגמה", color: CodableColor(.primary), textSize: 16)
+        let sample = NewWidgetProfile(name: "דוגמה", color: CodableColor(.primary), textSize: 16)
         return SimpleEntry(date: .now, verse: "פסוק לדוגמה", profile: sample)
     }
 
     func snapshot(for configuration: ConfigurationAppIntent, in context: Context) async -> SimpleEntry {
         let verse = await TehillimService.fetchRandomVerse()
-        let profile = configuration.profile?.profile ?? WidgetProfile(name: "ברירת מחדל", color: CodableColor(.primary), textSize: 16)
+        let profile = configuration.profile?.profile ?? NewWidgetProfile(name: "ברירת מחדל", color: CodableColor(.primary), textSize: 16)
         return SimpleEntry(date: .now, verse: verse, profile: profile)
     }
 
     func timeline(for configuration: ConfigurationAppIntent, in context: Context) async -> Timeline<SimpleEntry> {
         let verse = await TehillimService.fetchRandomVerse()
-        let profile = configuration.profile?.profile ?? WidgetProfile(name: "ברירת מחדל", color: CodableColor(.primary), textSize: 16)
+        let profile = configuration.profile?.profile ?? NewWidgetProfile(name: "ברירת מחדל", color: CodableColor(.primary), textSize: 16)
         let entry = SimpleEntry(date: .now, verse: verse, profile: profile)
         return Timeline(entries: [entry], policy: .never)
     }

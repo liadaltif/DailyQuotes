@@ -1,7 +1,7 @@
 import SwiftUI
 import UIKit
 
-struct CodableColor: Codable {
+struct CodableColor: Codable, Hashable {
     var red: Double
     var green: Double
     var blue: Double
@@ -22,7 +22,7 @@ struct CodableColor: Codable {
     }
 }
 
-struct WidgetProfile: Identifiable, Codable, Hashable {
+struct NewWidgetProfile: Identifiable, Codable, Hashable {
     var id: UUID = UUID()
     var name: String
     var color: CodableColor
