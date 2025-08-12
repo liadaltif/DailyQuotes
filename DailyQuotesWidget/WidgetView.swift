@@ -8,7 +8,7 @@ struct DailyQuotesWidgetView: View {
         ZStack {
             if let url = entry.backgroundURL,
                let uiImage = UIImage(contentsOfFile: url.path) {
-                Image(uiImage: uiImage)
+               Image(uiImage: uiImage)
                     .resizable()
                     .scaledToFill()
                     .clipped()
