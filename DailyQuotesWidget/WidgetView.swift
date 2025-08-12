@@ -22,6 +22,7 @@ struct DailyQuotesWidgetView: View {
                 .multilineTextAlignment(.center)
                 .padding()
         }
+        .background(Color.clear)
         .ignoresSafeArea()
         .applyWidgetBackground()
     }

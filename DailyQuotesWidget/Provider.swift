@@ -1,6 +1,7 @@
 import WidgetKit
 import SwiftUI
 
+
 struct BackgroundEntry: TimelineEntry {
     let date: Date
     let backgroundURL: URL?
@@ -21,8 +22,18 @@ struct Provider: AppIntentTimelineProvider {
     }
 
     func timeline(for configuration: ConfigurationAppIntent, in context: Context) async -> Timeline<BackgroundEntry> {
-        let entry = entry(for: configuration)
-        return Timeline(entries: [entry], policy: .never)
+        let profile = configuration.profile?.profile
+        let backgroundURL = loadBackgroundURL()
+        var quote = WidgetSharedData.load()
+        if quote == nil {
+            print("Provider: no saved quote found, fetching random Tehillim verse")
+            quote = await NewTehillimService.fetchRandomVerse()
+        }
+        let entry = BackgroundEntry(date: Date(),
+                                   backgroundURL: backgroundURL,
+                                   quote: quote ?? "Add a quote in the app",
+                                   profile: profile)
+        return Timeline(entries: [entry], policy: .after(Date().addingTimeInterval(3600)))
     }
 
     private func entry(for configuration: ConfigurationAppIntent) -> BackgroundEntry {
