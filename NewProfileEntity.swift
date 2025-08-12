@@ -17,6 +17,7 @@ struct NewProfileEntity: AppEntity, Identifiable {
     let name: String
     let textColor: CodableColor
     let backgroundColor: CodableColor
+    let backgroundImages: [String]?
     let textSize: NewWidgetProfile.TextSize
     let rotation: Int
 
@@ -25,12 +26,13 @@ struct NewProfileEntity: AppEntity, Identifiable {
         self.name = profile.name
         self.textColor = profile.textColor
         self.backgroundColor = profile.backgroundColor
+        self.backgroundImages = profile.backgroundImages
         self.textSize = profile.textSize
         self.rotation = profile.rotation
     }
 
     var profile: NewWidgetProfile {
-        NewWidgetProfile(id: id, name: name, textColor: textColor, backgroundColor: backgroundColor, textSize: textSize, rotation: rotation)
+        NewWidgetProfile(id: id, name: name, textColor: textColor, backgroundColor: backgroundColor, backgroundImages: backgroundImages, textSize: textSize, rotation: rotation)
     }
 
     var displayRepresentation: DisplayRepresentation {

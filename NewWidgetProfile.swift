@@ -41,6 +41,7 @@ struct NewWidgetProfile: Identifiable, Codable, Hashable {
     var name: String
     var textColor: CodableColor
     var backgroundColor: CodableColor
+    var backgroundImages: [String]?
     var textSize: TextSize
     var rotation: Int
 }

@@ -63,6 +63,7 @@ struct ProfileEditorView: View {
     @State private var name: String
     @State private var textColor: Color
     @State private var backgroundColor: Color
+    @State private var useGallery: Bool
     @State private var textSize: NewWidgetProfile.TextSize
     @State private var rotation: Int
     private let isEditing: Bool
@@ -75,6 +76,7 @@ struct ProfileEditorView: View {
         _name = State(initialValue: profile?.name ?? "")
         _textColor = State(initialValue: profile?.textColor.color ?? .primary)
         _backgroundColor = State(initialValue: profile?.backgroundColor.color ?? .white)
+        _useGallery = State(initialValue: profile?.backgroundImages != nil)
         _textSize = State(initialValue: profile?.textSize ?? .medium)
         _rotation = State(initialValue: profile?.rotation ?? 1)
     }
@@ -84,7 +86,12 @@ struct ProfileEditorView: View {
             Form {
                 TextField("Name", text: $name)
                 ColorPicker("Text Color", selection: $textColor)
-                ColorPicker("Background Color", selection: $backgroundColor)
+                Toggle("Use Image Gallery", isOn: $useGallery)
+                if useGallery {
+                    Text("Default gallery images will be used")
+                } else {
+                    ColorPicker("Background Color", selection: $backgroundColor)
+                }
                 Picker("Text Size", selection: $textSize) {
                     ForEach(NewWidgetProfile.TextSize.allCases, id: \.self) { size in
                         Text(size.rawValue.capitalized).tag(size)
@@ -111,7 +118,8 @@ struct ProfileEditorView: View {
                 }
                 ToolbarItem(placement: .confirmationAction) {
                     Button("Save") {
-                        let profile = NewWidgetProfile(name: name, textColor: CodableColor(textColor), backgroundColor: CodableColor(backgroundColor), textSize: textSize, rotation: rotation)
+                        let images = useGallery ? ["Photo1", "Photo2", "Photo3"] : nil
+                        let profile = NewWidgetProfile(name: name, textColor: CodableColor(textColor), backgroundColor: CodableColor(backgroundColor), backgroundImages: images, textSize: textSize, rotation: rotation)
                         onSave(profile)
                         dismiss()
                     }

@@ -9,18 +9,18 @@ struct SimpleEntry: TimelineEntry {
 
 struct Provider: AppIntentTimelineProvider {
     func placeholder(in context: Context) -> SimpleEntry {
-        let sample = NewWidgetProfile(name: "דוגמה", textColor: CodableColor(.primary), backgroundColor: CodableColor(.white), textSize: .medium, rotation: 1)
+        let sample = NewWidgetProfile(name: "דוגמה", textColor: CodableColor(.primary), backgroundColor: CodableColor(.white), backgroundImages: ["Photo1", "Photo2", "Photo3"], textSize: .medium, rotation: 1)
         return SimpleEntry(date: .now, verse: "פסוק לדוגמה", profile: sample)
     }
 
     func snapshot(for configuration: ConfigurationAppIntent, in context: Context) async -> SimpleEntry {
         let verse = await NewTehillimService.fetchRandomVerse()
-        let profile = configuration.profile?.profile ?? NewWidgetProfile(name: "ברירת מחדל", textColor: CodableColor(.primary), backgroundColor: CodableColor(.white), textSize: .medium, rotation: 1)
+        let profile = configuration.profile?.profile ?? NewWidgetProfile(name: "ברירת מחדל", textColor: CodableColor(.primary), backgroundColor: CodableColor(.white), backgroundImages: ["Photo1", "Photo2", "Photo3"], textSize: .medium, rotation: 1)
         return SimpleEntry(date: .now, verse: verse, profile: profile)
     }
 
     func timeline(for configuration: ConfigurationAppIntent, in context: Context) async -> Timeline<SimpleEntry> {
-        let profile = configuration.profile?.profile ?? NewWidgetProfile(name: "ברירת מחדל", textColor: CodableColor(.primary), backgroundColor: CodableColor(.white), textSize: .medium, rotation: 1)
+        let profile = configuration.profile?.profile ?? NewWidgetProfile(name: "ברירת מחדל", textColor: CodableColor(.primary), backgroundColor: CodableColor(.white), backgroundImages: ["Photo1", "Photo2", "Photo3"], textSize: .medium, rotation: 1)
         let rotations = max(profile.rotation, 1)
         let interval: TimeInterval = 86400 / Double(rotations)
         var entries: [SimpleEntry] = []
@@ -40,14 +40,30 @@ struct DailyQuotesWidgetEntryView: View {
     var entry: Provider.Entry
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 6) {
-            Text(entry.verse)
-                .font(.system(size: entry.profile.textSize.size))
-                .foregroundColor(entry.profile.textColor.color)
-                .fixedSize(horizontal: false, vertical: true)
+         ZStack {
+            if let images = entry.profile.backgroundImages, !images.isEmpty {
+                TabView {
+                    ForEach(images, id: \.self) { name in
+                        Image(name)
+                            .resizable()
+                            .scaledToFill()
+                            .frame(maxWidth: .infinity, maxHeight: .infinity)
+                            .clipped()
+                    }
+                }
+                .tabViewStyle(PageTabViewStyle())
+            } else {
+                entry.profile.backgroundColor.color
+            }
+            VStack(alignment: .leading, spacing: 6) {
+                Text(entry.verse)
+                    .font(.system(size: entry.profile.textSize.size))
+                    .foregroundColor(entry.profile.textColor.color)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
+            .padding()
         }
-        .padding()
-        .containerBackground(entry.profile.backgroundColor.color, for: .widget)
+        .containerBackground(.clear, for: .widget)
     }
 }
 
