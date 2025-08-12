@@ -102,6 +102,11 @@
 			path = DailyQuotesWidget;
 			sourceTree = "<group>";
 		};
+		1CCB62952E4B843F00F8D149 /* Shared */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Shared;
+			sourceTree = "<group>";
+		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -140,6 +145,7 @@
 				1C6E236A2E40E32B009D09CE /* Frameworks */,
 				1C6E23582E40E1AF009D09CE /* Products */,
 				1C4F866E2E43B22D00CFCC75 /* NewProfileManager.swift */,
+				1CCB62952E4B843F00F8D149 /* Shared */,
 			);
 			sourceTree = "<group>";
 		};
@@ -180,6 +186,7 @@
 			);
 			fileSystemSynchronizedGroups = (
 				1C6E23592E40E1AF009D09CE /* DailyQuotes */,
+				1CCB62952E4B843F00F8D149 /* Shared */,
 			);
 			name = DailyQuotes;
 			packageProductDependencies = (
@@ -202,6 +209,7 @@
 			);
 			fileSystemSynchronizedGroups = (
 				1C6E236F2E40E32B009D09CE /* DailyQuotesWidget */,
+				1CCB62952E4B843F00F8D149 /* Shared */,
 			);
 			name = DailyQuotesWidgetExtension;
 			packageProductDependencies = (
