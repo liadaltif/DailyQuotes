@@ -1,7 +1,7 @@
 import SwiftUI
 import WidgetKit
 
-struct MyWidgetView: View {
+struct DailyQuotesWidgetView: View {
     var entry: BackgroundEntry
 
     var body: some View {
@@ -24,18 +24,5 @@ struct MyWidgetView: View {
                 Color.black.opacity(0.2)
             }
         }
-    }
-}
-
-@main
-struct MyWidget: Widget {
-    let kind: String = "MyWidget"
-
-    var body: some WidgetConfiguration {
-        StaticConfiguration(kind: kind, provider: Provider()) { entry in
-            MyWidgetView(entry: entry)
-        }
-        .configurationDisplayName("My Widget")
-        .description("Shows a background image from the app group container.")
     }
 }

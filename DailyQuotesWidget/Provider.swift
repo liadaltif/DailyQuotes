@@ -1,23 +1,23 @@
 import WidgetKit
 import SwiftUI
 
-struct Entry: TimelineEntry {
+struct BackgroundEntry: TimelineEntry {
     let date: Date
     let backgroundURL: URL?
 }
 
 struct Provider: TimelineProvider {
-    func placeholder(in context: Context) -> Entry {
-        Entry(date: Date(), backgroundURL: loadBackgroundURL())
+    func placeholder(in context: Context) -> BackgroundEntry {
+        BackgroundEntry(date: Date(), backgroundURL: loadBackgroundURL())
     }
 
-    func getSnapshot(in context: Context, completion: @escaping (Entry) -> ()) {
-        let entry = Entry(date: Date(), backgroundURL: loadBackgroundURL())
+    func getSnapshot(in context: Context, completion: @escaping (BackgroundEntry) -> ()) {
+        let entry = BackgroundEntry(date: Date(), backgroundURL: loadBackgroundURL())
         completion(entry)
     }
 
-    func getTimeline(in context: Context, completion: @escaping (Timeline<Entry>) -> ()) {
-        let entry = Entry(date: Date(), backgroundURL: loadBackgroundURL())
+    func getTimeline(in context: Context, completion: @escaping (Timeline<BackgroundEntry>) -> ()) {
+        let entry = BackgroundEntry(date: Date(), backgroundURL: loadBackgroundURL())
         let timeline = Timeline(entries: [entry], policy: .never)
         completion(timeline)
     }
@@ -30,5 +30,12 @@ struct Provider: TimelineProvider {
         }
         print("Provider: using background at", url.path)
         return url
+    }
+
+    private func sharedBackgroundURL() -> URL? {
+        let groupID = "group.com.liadaltif.DailyQuotes"
+        return FileManager.default
+            .containerURL(forSecurityApplicationGroupIdentifier: groupID)?
+            .appendingPathComponent("background.jpg")
     }
 }
