@@ -1,5 +1,6 @@
 import WidgetKit
 import SwiftUI
+import UIKit
 
 struct SimpleEntry: TimelineEntry {
     let date: Date
@@ -39,16 +40,31 @@ struct Provider: AppIntentTimelineProvider {
 struct DailyQuotesWidgetEntryView: View {
     var entry: Provider.Entry
 
-    var body: some View {
+    private func image(named name: String) -> Image? {
+        let appBundleURL = Bundle.main.bundleURL
+            .deletingLastPathComponent()
+            .deletingLastPathComponent()
+        if let bundle = Bundle(url: appBundleURL),
+           let uiImage = UIImage(named: name, in: bundle, with: nil) {
+            return Image(uiImage: uiImage)
+        }
+        return nil
+    }
+
+var body: some View {
          ZStack {
             if let images = entry.profile.backgroundImages, !images.isEmpty {
                 TabView {
                     ForEach(images, id: \.self) { name in
-                        Image(name)
-                            .resizable()
-                            .scaledToFill()
-                            .frame(maxWidth: .infinity, maxHeight: .infinity)
-                            .clipped()
+                        if let img = image(named: name) {
+                            img
+                                .resizable()
+                                .scaledToFill()
+                                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                                .clipped()
+                        } else {
+                            entry.profile.backgroundColor.color
+                        }
                     }
                 }
                 .tabViewStyle(PageTabViewStyle())
