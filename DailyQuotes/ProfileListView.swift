@@ -63,12 +63,10 @@ struct ProfileEditorView: View {
     @Environment(\.colorScheme) private var colorScheme
 
     @State private var name: String
-    @State private var selectedImage: String?
     @State private var versesPerDay: Int
 
     private let isEditing: Bool
     private let initialID: UUID?
-    private let galleryImages = ["Photo1", "Photo2", "Photo3"]
 
     var onSave: (NewWidgetProfile) -> Void
 
@@ -77,7 +75,6 @@ struct ProfileEditorView: View {
         self.isEditing = profile != nil
         self.initialID = profile?.id
         _name = State(initialValue: profile?.name ?? "")
-        _selectedImage = State(initialValue: profile?.backgroundImage)
         _versesPerDay = State(initialValue: profile?.versesPerDay ?? 1)
     }
 
@@ -91,44 +88,11 @@ struct ProfileEditorView: View {
 
                     // Removed the manual light/dark mode buttons
 
-                    ScrollView(.horizontal) {
-                        HStack(spacing: 8) {
-                            Button(action: { selectedImage = nil }) {
-                                ZStack {
-                                    Color.gray.opacity(0.2)
-                                    Text("ללא תמונה")
-                                        .foregroundColor(.primary)
-                                }
-                                .frame(width: 80, height: 80)
-                                .overlay(
-                                    Rectangle()
-                                        .stroke(selectedImage == nil ? Color.accentColor : Color.clear, lineWidth: 3)
-                                )
-                            }
-                            ForEach(galleryImages, id: \.self) { name in
-                                Image(name)
-                                    .resizable()
-                                    .scaledToFill()
-                                    .frame(width: 80, height: 80)
-                                    .clipped()
-                                    .overlay(
-                                        Rectangle()
-                                            .stroke(selectedImage == name ? Color.accentColor : Color.clear, lineWidth: 3)
-                                    )
-                                    .onTapGesture {
-                                        selectedImage = name
-                                    }
-                            }
-                        }
-                        .padding(.vertical, 4)
-                    }
-                    .frame(height: 90)
-
                    Stepper(value: $versesPerDay, in: 1...100) {
-                    HStack {
-                        Text("כמות פסוקים ביום")
-                            .frame(maxWidth: .infinity, alignment: .trailing)
-                        Text("\(versesPerDay)")
+                        HStack {
+                            Text("כמות פסוקים ביום")
+                                .frame(maxWidth: .infinity, alignment: .trailing)
+                            Text("\(versesPerDay)")
                     }
                 }
 
@@ -142,7 +106,6 @@ struct ProfileEditorView: View {
                     let profile = NewWidgetProfile(
                         id: initialID ?? UUID(),
                         name: name,
-                        backgroundImage: selectedImage,
                         isDarkMode: colorScheme == .dark,   // follows phone at save time
                         versesPerDay: versesPerDay
                     )

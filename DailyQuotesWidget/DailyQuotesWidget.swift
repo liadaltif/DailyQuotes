@@ -9,7 +9,7 @@ struct DailyQuotesWidget: Widget {
             DailyQuotesWidgetView(entry: entry)
         }
         .configurationDisplayName("Daily Quotes")
-        .description("Displays the selected quote over a background image.")
+        .description("Displays the selected quote.")
         .supportedFamilies([.systemSmall, .systemMedium, .systemLarge])
     }
 }
