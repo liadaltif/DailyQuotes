@@ -15,18 +15,22 @@ struct NewProfileEntity: AppEntity, Identifiable {
 
     let id: UUID
     let name: String
-    let color: CodableColor
-    let textSize: Double
+    let textColor: CodableColor
+    let backgroundColor: CodableColor
+    let textSize: NewWidgetProfile.TextSize
+    let rotation: Int
 
     init(profile: NewWidgetProfile) {
         self.id = profile.id
         self.name = profile.name
-        self.color = profile.color
+        self.textColor = profile.textColor
+        self.backgroundColor = profile.backgroundColor
         self.textSize = profile.textSize
+        self.rotation = profile.rotation
     }
 
     var profile: NewWidgetProfile {
-        NewWidgetProfile(id: id, name: name, color: color, textSize: textSize)
+        NewWidgetProfile(id: id, name: name, textColor: textColor, backgroundColor: backgroundColor, textSize: textSize, rotation: rotation)
     }
 
     var displayRepresentation: DisplayRepresentation {
