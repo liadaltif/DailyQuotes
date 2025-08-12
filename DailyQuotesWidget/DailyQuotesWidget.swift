@@ -5,11 +5,11 @@ struct DailyQuotesWidget: Widget {
     let kind: String = "DailyQuotesWidget"
 
     var body: some WidgetConfiguration {
-        StaticConfiguration(kind: kind, provider: Provider()) { entry in
+        AppIntentConfiguration(kind: kind, intent: ConfigurationAppIntent.self, provider: Provider()) { entry in
             DailyQuotesWidgetView(entry: entry)
         }
         .configurationDisplayName("Daily Quotes")
-        .description("Displays a background image from the shared app group container.")
+        .description("Displays the selected quote over a background image.")
         .supportedFamilies([.systemSmall, .systemMedium, .systemLarge])
     }
 }
