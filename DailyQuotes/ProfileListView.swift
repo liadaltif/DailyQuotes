@@ -60,10 +60,12 @@ struct ProfileListView: View {
 @MainActor
 struct ProfileEditorView: View {
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.colorScheme) private var colorScheme
+
     @State private var name: String
-    @State private var isDarkMode: Bool
     @State private var selectedImage: String?
     @State private var versesPerDay: Int
+
     private let isEditing: Bool
     private let initialID: UUID?
     private let galleryImages = ["Photo1", "Photo2", "Photo3"]
@@ -75,7 +77,6 @@ struct ProfileEditorView: View {
         self.isEditing = profile != nil
         self.initialID = profile?.id
         _name = State(initialValue: profile?.name ?? "")
-        _isDarkMode = State(initialValue: profile?.isDarkMode ?? false)
         _selectedImage = State(initialValue: profile?.backgroundImage)
         _versesPerDay = State(initialValue: profile?.versesPerDay ?? 1)
     }
@@ -88,27 +89,7 @@ struct ProfileEditorView: View {
                         .multilineTextAlignment(.trailing)
                         .frame(maxWidth: .infinity, alignment: .trailing)
 
-                    HStack(spacing: 0) {
-                        Button(action: { isDarkMode = false }) {
-                            Text("מצב בהיר")
-                                .frame(maxWidth: .infinity)
-                                .padding(8)
-                                .background(isDarkMode ? Color.gray.opacity(0.2) : Color.white)
-                                .foregroundColor(.black)
-                        }
-                        Button(action: { isDarkMode = true }) {
-                            Text("מצב כהה")
-                                .frame(maxWidth: .infinity)
-                                .padding(8)
-                                .background(isDarkMode ? Color.black : Color.gray.opacity(0.2))
-                                .foregroundColor(isDarkMode ? .white : .black)
-                        }
-                    }
-                    .clipShape(RoundedRectangle(cornerRadius: 8))
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 8).stroke(Color.gray)
-                    )
-                    .frame(maxWidth: .infinity, alignment: .trailing)
+                    // Removed the manual light/dark mode buttons
 
                     ScrollView(.horizontal) {
                         HStack(spacing: 8) {
@@ -143,20 +124,28 @@ struct ProfileEditorView: View {
                     }
                     .frame(height: 90)
 
-                    Stepper(value: $versesPerDay, in: 1...100) {
-                        HStack {
-                            Text("כמות פסוקים ביום")
-                                .frame(maxWidth: .infinity, alignment: .trailing)
-                            Text("\(versesPerDay)")
-                        }
+                   Stepper(value: $versesPerDay, in: 1...100) {
+                    HStack {
+                        Text("כמות פסוקים ביום")
+                            .frame(maxWidth: .infinity, alignment: .trailing)
+                        Text("\(versesPerDay)")
                     }
+                }
+
                 }
                 .environment(\.layoutDirection, .rightToLeft)
 
                 Spacer()
 
                 Button(isEditing ? "עדכן ווידג׳ט" : "פתיחת ווידג׳ט חדש") {
-                    let profile = NewWidgetProfile(id: initialID ?? UUID(), name: name, backgroundImage: selectedImage, isDarkMode: isDarkMode, versesPerDay: versesPerDay)
+                    // Save with current system appearance (no manual toggle)
+                    let profile = NewWidgetProfile(
+                        id: initialID ?? UUID(),
+                        name: name,
+                        backgroundImage: selectedImage,
+                        isDarkMode: colorScheme == .dark,   // follows phone at save time
+                        versesPerDay: versesPerDay
+                    )
                     onSave(profile)
                     dismiss()
                 }
