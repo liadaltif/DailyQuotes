@@ -24,5 +24,6 @@ struct DailyQuotesWidgetView: View {
                 Color.black.opacity(0.2)
             }
         }
+        .ignoresSafeArea()
     }
 }
