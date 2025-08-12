@@ -14,20 +14,18 @@ struct NewProfileEntity: AppEntity, Identifiable {
 
     let id: UUID
     let name: String
-    let backgroundImage: String?
     let isDarkMode: Bool
     let versesPerDay: Int
 
     init(profile: NewWidgetProfile) {
         self.id = profile.id
         self.name = profile.name
-        self.backgroundImage = profile.backgroundImage
         self.isDarkMode = profile.isDarkMode
         self.versesPerDay = profile.versesPerDay
     }
 
     var profile: NewWidgetProfile {
-        NewWidgetProfile(id: id, name: name, backgroundImage: backgroundImage, isDarkMode: isDarkMode, versesPerDay: versesPerDay)
+        NewWidgetProfile(id: id, name: name, isDarkMode: isDarkMode, versesPerDay: versesPerDay)
     }
 
     var displayRepresentation: DisplayRepresentation {
