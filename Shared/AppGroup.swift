@@ -1,16 +1,35 @@
 import Foundation
+import SwiftUI
+import WidgetKit
 
-// TODO: Enable the App Group capability for the app and widget targets using this identifier.
-let appGroupID = "group.com.yourcompany.yourapp"
 
-/// Returns the URL for the shared background image file in the App Group container.
-/// The file is located at <AppGroup>/WidgetImages/background.jpg
-func sharedBackgroundURL() -> URL? {
-    let fm = FileManager.default
-    guard let container = fm.containerURL(forSecurityApplicationGroupIdentifier: appGroupID) else {
-        print("AppGroup: unable to resolve container for \(appGroupID)")
-        return nil
+private let appGroupID = "group.com.liadaltif.DailyQuotes"
+
+private func sharedBackgroundURL() -> URL? {
+    FileManager.default
+        .containerURL(forSecurityApplicationGroupIdentifier: appGroupID)?
+        .appendingPathComponent("WidgetImages/background.jpg")
+}
+
+// MARK: - Timeline
+
+struct BackgroundEntry: TimelineEntry {
+    let date: Date
+    let backgroundURL: URL?
+}
+
+struct BackgroundImageProvider: TimelineProvider {
+    func placeholder(in context: Context) -> BackgroundEntry {
+        BackgroundEntry(date: .now, backgroundURL: nil)
     }
-    let dir = container.appendingPathComponent("WidgetImages", isDirectory: true)
-    return dir.appendingPathComponent("background.jpg")
+
+    func getSnapshot(in context: Context, completion: @escaping (BackgroundEntry) -> Void) {
+        completion(BackgroundEntry(date: .now, backgroundURL: sharedBackgroundURL()))
+    }
+
+    func getTimeline(in context: Context, completion: @escaping (Timeline<BackgroundEntry>) -> Void) {
+        let entry = BackgroundEntry(date: .now, backgroundURL: sharedBackgroundURL())
+        // Use .never if you only refresh when the app saves a new image + reloads timelines.
+        completion(Timeline(entries: [entry], policy: .never))
+    }
 }

@@ -2,7 +2,7 @@ import SwiftUI
 import WidgetKit
 
 struct MyWidgetView: View {
-    var entry: Provider.Entry
+    var entry: BackgroundEntry
 
     var body: some View {
         ZStack {
