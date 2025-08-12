@@ -6,9 +6,8 @@ struct DailyQuotesWidgetView: View {
 
     var body: some View {
         ZStack {
-            if let names = entry.profile?.backgroundImages,
-               let random = names.randomElement() {
-                Image(random)
+            if let name = entry.profile?.backgroundImage {
+                Image(name)
                     .resizable()
                     .aspectRatio(contentMode: .fill)
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -21,13 +20,12 @@ struct DailyQuotesWidgetView: View {
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                     .clipped()
             } else {
-                (entry.profile?.backgroundColor.color ?? Color.black.opacity(0.2))
+                (entry.profile?.isDarkMode ?? false ? Color.black : Color.white)
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
             }
 
             Text(entry.quote)
-                .font(.system(size: entry.profile?.textSize.size ?? 16))
-                .foregroundColor(entry.profile?.textColor.color ?? .white)
+                .foregroundColor(entry.profile?.isDarkMode ?? false ? .white : .black)
                 .multilineTextAlignment(.center)
                 .padding()
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
