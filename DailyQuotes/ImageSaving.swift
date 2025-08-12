@@ -4,14 +4,17 @@ import WidgetKit
 import PhotosUI
 
 // Replace with your real app group identifier
-private let appGroupID = "group.com.liadaltif.DailyQuotes"
+private let appGroupID = AppGroup.id
 
 // Where the widget background image will be saved
 func sharedBackgroundURL() -> URL? {
-    guard let containerURL = FileManager.default.containerURL(
-        forSecurityApplicationGroupIdentifier: appGroupID
-    ) else { return nil }
-    return containerURL.appendingPathComponent("widget-background.jpg")
+    let url = AppGroup.sharedBackgroundURL()
+    if let path = url?.path {
+        print("ImageSave: sharedBackgroundURL ->", path)
+    } else {
+        print("ImageSave: sharedBackgroundURL is nil")
+    }
+    return url
 }
 
 /// Downscales the image so its largest dimension is roughly the provided max value.
@@ -31,6 +34,7 @@ private func downscaledImage(from image: UIImage, maxDimension: CGFloat = 1800) 
 /// - Returns: The URL of the saved image or nil on failure.
 func saveWidgetBackgroundImage(_ image: UIImage) -> URL? {
     guard let url = sharedBackgroundURL() else { return nil }
+    print("ImageSave: attempting to save image at", url.path)
     let fm = FileManager.default
     let dir = url.deletingLastPathComponent()
 
@@ -84,6 +88,7 @@ struct BackgroundImagePicker: UIViewControllerRepresentable {
                   provider.canLoadObject(ofClass: UIImage.self) else { return }
             provider.loadObject(ofClass: UIImage.self) { object, _ in
                 if let image = object as? UIImage {
+                    print("ImageSave: picked image size", image.size)
                     _ = saveWidgetBackgroundImage(image)
                 }
             }
