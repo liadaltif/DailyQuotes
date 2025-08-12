@@ -9,21 +9,30 @@ struct SimpleEntry: TimelineEntry {
 
 struct Provider: AppIntentTimelineProvider {
     func placeholder(in context: Context) -> SimpleEntry {
-        let sample = NewWidgetProfile(name: "דוגמה", color: CodableColor(.primary), textSize: 16)
+        let sample = NewWidgetProfile(name: "דוגמה", textColor: CodableColor(.primary), backgroundColor: CodableColor(.white), textSize: .medium, rotation: 1)
         return SimpleEntry(date: .now, verse: "פסוק לדוגמה", profile: sample)
     }
 
     func snapshot(for configuration: ConfigurationAppIntent, in context: Context) async -> SimpleEntry {
         let verse = await NewTehillimService.fetchRandomVerse()
-        let profile = configuration.profile?.profile ?? NewWidgetProfile(name: "ברירת מחדל", color: CodableColor(.primary), textSize: 16)
+        let profile = configuration.profile?.profile ?? NewWidgetProfile(name: "ברירת מחדל", textColor: CodableColor(.primary), backgroundColor: CodableColor(.white), textSize: .medium, rotation: 1)
         return SimpleEntry(date: .now, verse: verse, profile: profile)
     }
 
     func timeline(for configuration: ConfigurationAppIntent, in context: Context) async -> Timeline<SimpleEntry> {
-        let verse = await NewTehillimService.fetchRandomVerse()
-        let profile = configuration.profile?.profile ?? NewWidgetProfile(name: "ברירת מחדל", color: CodableColor(.primary), textSize: 16)
-        let entry = SimpleEntry(date: .now, verse: verse, profile: profile)
-        return Timeline(entries: [entry], policy: .never)
+        let profile = configuration.profile?.profile ?? NewWidgetProfile(name: "ברירת מחדל", textColor: CodableColor(.primary), backgroundColor: CodableColor(.white), textSize: .medium, rotation: 1)
+        let rotations = max(profile.rotation, 1)
+        let interval: TimeInterval = 86400 / Double(rotations)
+        var entries: [SimpleEntry] = []
+        let currentDate = Date()
+
+        for i in 0..<rotations {
+            let verse = await NewTehillimService.fetchRandomVerse()
+            let entryDate = currentDate.addingTimeInterval(Double(i) * interval)
+            entries.append(SimpleEntry(date: entryDate, verse: verse, profile: profile))
+        }
+
+        return Timeline(entries: entries, policy: .atEnd)
     }
 }
 
@@ -33,12 +42,12 @@ struct DailyQuotesWidgetEntryView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 6) {
             Text(entry.verse)
-                .font(.system(size: CGFloat(entry.profile.textSize)))
-                .foregroundColor(entry.profile.color.color)
+                .font(.system(size: entry.profile.textSize.size))
+                .foregroundColor(entry.profile.textColor.color)
                 .fixedSize(horizontal: false, vertical: true)
         }
         .padding()
-        .containerBackground(.fill.tertiary, for: .widget)
+        .containerBackground(entry.profile.backgroundColor.color, for: .widget)
     }
 }
 

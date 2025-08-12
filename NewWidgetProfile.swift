@@ -23,8 +23,24 @@ struct CodableColor: Codable, Hashable {
 }
 
 struct NewWidgetProfile: Identifiable, Codable, Hashable {
+    enum TextSize: String, Codable, CaseIterable, Hashable {
+        case small
+        case medium
+        case large
+
+        var size: CGFloat {
+            switch self {
+            case .small: return 14
+            case .medium: return 18
+            case .large: return 24
+            }
+        }
+    }
+
     var id: UUID = UUID()
     var name: String
-    var color: CodableColor
-    var textSize: Double
+    var textColor: CodableColor
+    var backgroundColor: CodableColor
+    var textSize: TextSize
+    var rotation: Int
 }
