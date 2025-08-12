@@ -1,6 +1,18 @@
 import UIKit
+import SwiftUI
 import WidgetKit
 import PhotosUI
+
+// Replace with your real app group identifier
+private let appGroupID = "group.com.liadaltif.DailyQuotes"
+
+// Where the widget background image will be saved
+func sharedBackgroundURL() -> URL? {
+    guard let containerURL = FileManager.default.containerURL(
+        forSecurityApplicationGroupIdentifier: appGroupID
+    ) else { return nil }
+    return containerURL.appendingPathComponent("widget-background.jpg")
+}
 
 /// Downscales the image so its largest dimension is roughly the provided max value.
 private func downscaledImage(from image: UIImage, maxDimension: CGFloat = 1800) -> UIImage? {
