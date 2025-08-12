@@ -25,7 +25,7 @@ struct Provider: TimelineProvider {
     private func loadBackgroundURL() -> URL? {
         guard let url = AppGroup.sharedBackgroundURL(),
               FileManager.default.fileExists(atPath: url.path) else {
-            print("Provider: background image missing at \(AppGroup.sharedBackgroundURL()?.path ?? \"nil\")")
+            print("Provider: background image missing at \(AppGroup.sharedBackgroundURL()?.path ?? "nil")")
             return nil
         }
         print("Provider: using background at", url.path)
