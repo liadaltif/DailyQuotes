@@ -4,7 +4,6 @@ struct ProfileListView: View {
     @State private var profiles: [NewWidgetProfile] = NewProfileManager.load()
     @State private var showEditor = false
     @State private var editingProfile: NewWidgetProfile?
-    @Environment(\.editMode) private var editMode
 
     var body: some View {
         NavigationView {
@@ -19,9 +18,7 @@ struct ProfileListView: View {
                     }
                     .contentShape(Rectangle())
                     .onTapGesture {
-                        if editMode?.wrappedValue == .active {
-                            editingProfile = profile
-                        }
+                        editingProfile = profile
                     }
                 }
                 .onDelete { indexSet in
@@ -64,9 +61,11 @@ struct ProfileEditorView: View {
     @State private var textColor: Color
     @State private var backgroundColor: Color
     @State private var useGallery: Bool
+    @State private var selectedImages: Set<String>
     @State private var textSize: NewWidgetProfile.TextSize
     @State private var rotation: Int
     private let isEditing: Bool
+    private let galleryImages = ["Photo1", "Photo2", "Photo3"]
 
     var onSave: (NewWidgetProfile) -> Void
 
@@ -77,6 +76,7 @@ struct ProfileEditorView: View {
         _textColor = State(initialValue: profile?.textColor.color ?? .primary)
         _backgroundColor = State(initialValue: profile?.backgroundColor.color ?? .white)
         _useGallery = State(initialValue: profile?.backgroundImages != nil)
+        _selectedImages = State(initialValue: Set(profile?.backgroundImages ?? []))
         _textSize = State(initialValue: profile?.textSize ?? .medium)
         _rotation = State(initialValue: profile?.rotation ?? 1)
     }
@@ -88,7 +88,30 @@ struct ProfileEditorView: View {
                 ColorPicker("Text Color", selection: $textColor)
                 Toggle("Use Image Gallery", isOn: $useGallery)
                 if useGallery {
-                    Text("Default gallery images will be used")
+                    ScrollView(.horizontal) {
+                        HStack(spacing: 8) {
+                            ForEach(galleryImages, id: \.self) { name in
+                                Image(name)
+                                    .resizable()
+                                    .scaledToFill()
+                                    .frame(width: 80, height: 80)
+                                    .clipped()
+                                    .overlay(
+                                        RoundedRectangle(cornerRadius: 8)
+                                            .stroke(selectedImages.contains(name) ? Color.accentColor : Color.clear, lineWidth: 3)
+                                    )
+                                    .onTapGesture {
+                                        if selectedImages.contains(name) {
+                                            selectedImages.remove(name)
+                                        } else {
+                                            selectedImages.insert(name)
+                                        }
+                                    }
+                            }
+                        }
+                        .padding(.vertical, 4)
+                    }
+                    .frame(height: 90)
                 } else {
                     ColorPicker("Background Color", selection: $backgroundColor)
                 }
@@ -118,7 +141,7 @@ struct ProfileEditorView: View {
                 }
                 ToolbarItem(placement: .confirmationAction) {
                     Button("Save") {
-                        let images = useGallery ? ["Photo1", "Photo2", "Photo3"] : nil
+                        let images = useGallery ? Array(selectedImages) : nil
                         let profile = NewWidgetProfile(name: name, textColor: CodableColor(textColor), backgroundColor: CodableColor(backgroundColor), backgroundImages: images, textSize: textSize, rotation: rotation)
                         onSave(profile)
                         dismiss()
