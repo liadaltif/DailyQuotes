@@ -23,7 +23,7 @@ struct Provider: AppIntentTimelineProvider {
 
     func timeline(for configuration: ConfigurationAppIntent, in context: Context) async -> Timeline<BackgroundEntry> {
         let profile = configuration.profile?.profile
-        let backgroundURL = loadBackgroundURL()
+        let backgroundURL = (profile?.backgroundImages == nil) ? loadBackgroundURL() : nil
         var quote = WidgetSharedData.load()
         if quote == nil {
             print("Provider: no saved quote found, fetching random Tehillim verse")
@@ -40,7 +40,7 @@ struct Provider: AppIntentTimelineProvider {
         let profile = configuration.profile?.profile
         let quote = WidgetSharedData.load() ?? "Add a quote in the app"
         return BackgroundEntry(date: Date(),
-                               backgroundURL: loadBackgroundURL(),
+                               backgroundURL: (profile?.backgroundImages == nil) ? loadBackgroundURL() : nil,
                                quote: quote,
                                profile: profile)
     }

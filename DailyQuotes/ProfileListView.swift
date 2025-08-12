@@ -1,4 +1,5 @@
 import SwiftUI
+import WidgetKit
 
 @MainActor
 struct ProfileListView: View {
@@ -25,6 +26,7 @@ struct ProfileListView: View {
                 .onDelete { indexSet in
                     profiles.remove(atOffsets: indexSet)
                     NewProfileManager.save(profiles)
+                    WidgetCenter.shared.reloadAllTimelines()
                 }
             }
             .navigationTitle("Profiles")
@@ -43,6 +45,7 @@ struct ProfileListView: View {
             ProfileEditorView { profile in
                 profiles.append(profile)
                 NewProfileManager.save(profiles)
+                WidgetCenter.shared.reloadAllTimelines()
             }
         }
         .sheet(item: $editingProfile) { profile in
@@ -50,6 +53,7 @@ struct ProfileListView: View {
                 if let index = profiles.firstIndex(where: { $0.id == updated.id }) {
                     profiles[index] = updated
                     NewProfileManager.save(profiles)
+                    WidgetCenter.shared.reloadAllTimelines()
                 }
             }
         }
