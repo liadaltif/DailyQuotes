@@ -23,19 +23,13 @@ struct Provider: TimelineProvider {
     }
 
     private func loadBackgroundURL() -> URL? {
-        guard let url = sharedBackgroundURL(),
+        guard let url = AppGroup.sharedBackgroundURL(),
               FileManager.default.fileExists(atPath: url.path) else {
-            print("Provider: background image missing at \(sharedBackgroundURL()?.path ?? "nil")")
+            print("Provider: background image missing at \(AppGroup.sharedBackgroundURL()?.path ?? \"nil\")")
             return nil
         }
         print("Provider: using background at", url.path)
         return url
     }
-
-    private func sharedBackgroundURL() -> URL? {
-        let groupID = "group.com.liadaltif.DailyQuotes"
-        return FileManager.default
-            .containerURL(forSecurityApplicationGroupIdentifier: groupID)?
-            .appendingPathComponent("background.jpg")
-    }
 }
+

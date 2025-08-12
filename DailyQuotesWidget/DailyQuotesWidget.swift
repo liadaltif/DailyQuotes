@@ -9,7 +9,7 @@ struct DailyQuotesWidget: Widget {
             DailyQuotesWidgetView(entry: entry)
         }
         .configurationDisplayName("Daily Quotes")
-        .description("Shows a background image from the app group container.")
+        .description("Displays a background image from the shared app group container.")
         .supportedFamilies([.systemSmall, .systemMedium, .systemLarge])
     }
 }
