@@ -62,7 +62,7 @@ struct ProfileEditorView: View {
     @Environment(\.dismiss) private var dismiss
     @State private var name: String
     @State private var isDarkMode: Bool
-    @State private var selectedImage: String
+    @State private var selectedImage: String?
     @State private var versesPerDay: Int
     private let isEditing: Bool
     private let initialID: UUID?
@@ -76,56 +76,86 @@ struct ProfileEditorView: View {
         self.initialID = profile?.id
         _name = State(initialValue: profile?.name ?? "")
         _isDarkMode = State(initialValue: profile?.isDarkMode ?? false)
-        _selectedImage = State(initialValue: profile?.backgroundImage ?? galleryImages.first!)
+        _selectedImage = State(initialValue: profile?.backgroundImage)
         _versesPerDay = State(initialValue: profile?.versesPerDay ?? 1)
     }
 
     var body: some View {
         NavigationView {
-            Form {
-                TextField("", text: $name, prompt: Text("שם הפרופיל שלך"))
-                    .multilineTextAlignment(.trailing)
-
-                Toggle(isOn: $isDarkMode) {
-                    Text("מצב כהה/מצב בהיר")
+            VStack {
+                Form {
+                    TextField("", text: $name, prompt: Text("שם הפרופיל שלך"))
+                        .multilineTextAlignment(.trailing)
                         .frame(maxWidth: .infinity, alignment: .trailing)
-                }
 
-                ScrollView(.horizontal) {
-                    HStack(spacing: 8) {
-                        ForEach(galleryImages, id: \.self) { name in
-                            Image(name)
-                                .resizable()
-                                .scaledToFill()
-                                .frame(width: 80, height: 80)
-                                .clipped()
-                                .overlay(
-                                    Rectangle()
-                                        .stroke(selectedImage == name ? Color.accentColor : Color.clear, lineWidth: 3)
-                                )
-                                .onTapGesture {
-                                    selectedImage = name
-                                }
+                    HStack(spacing: 0) {
+                        Button(action: { isDarkMode = false }) {
+                            Text("מצב בהיר")
+                                .frame(maxWidth: .infinity)
+                                .padding(8)
+                                .background(isDarkMode ? Color.gray.opacity(0.2) : Color.white)
+                                .foregroundColor(.black)
+                        }
+                        Button(action: { isDarkMode = true }) {
+                            Text("מצב כהה")
+                                .frame(maxWidth: .infinity)
+                                .padding(8)
+                                .background(isDarkMode ? Color.black : Color.gray.opacity(0.2))
+                                .foregroundColor(isDarkMode ? .white : .black)
                         }
                     }
-                    .padding(.vertical, 4)
-                }
-                .frame(height: 90)
+                    .clipShape(RoundedRectangle(cornerRadius: 8))
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 8).stroke(Color.gray)
+                    )
+                    .frame(maxWidth: .infinity, alignment: .trailing)
 
-                HStack {
-                    Text("כמות פסוקים ביום")
-                        .frame(maxWidth: .infinity, alignment: .trailing)
-                    Button(action: { if versesPerDay > 0 { versesPerDay -= 1 } }) {
-                        Image(systemName: "minus.circle")
+                    ScrollView(.horizontal) {
+                        HStack(spacing: 8) {
+                            Button(action: { selectedImage = nil }) {
+                                ZStack {
+                                    Color.gray.opacity(0.2)
+                                    Text("ללא תמונה")
+                                        .foregroundColor(.primary)
+                                }
+                                .frame(width: 80, height: 80)
+                                .overlay(
+                                    Rectangle()
+                                        .stroke(selectedImage == nil ? Color.accentColor : Color.clear, lineWidth: 3)
+                                )
+                            }
+                            ForEach(galleryImages, id: \.self) { name in
+                                Image(name)
+                                    .resizable()
+                                    .scaledToFill()
+                                    .frame(width: 80, height: 80)
+                                    .clipped()
+                                    .overlay(
+                                        Rectangle()
+                                            .stroke(selectedImage == name ? Color.accentColor : Color.clear, lineWidth: 3)
+                                    )
+                                    .onTapGesture {
+                                        selectedImage = name
+                                    }
+                            }
+                        }
+                        .padding(.vertical, 4)
                     }
-                    Text("\(versesPerDay)")
-                        .frame(minWidth: 30)
-                    Button(action: { versesPerDay += 1 }) {
-                        Image(systemName: "plus.circle")
+                    .frame(height: 90)
+
+                    Stepper(value: $versesPerDay, in: 1...100) {
+                        HStack {
+                            Text("כמות פסוקים ביום")
+                                .frame(maxWidth: .infinity, alignment: .trailing)
+                            Text("\(versesPerDay)")
+                        }
                     }
                 }
+                .environment(\.layoutDirection, .rightToLeft)
 
-                Button("פתיחת ווידג׳ט חדש") {
+                Spacer()
+
+                Button(isEditing ? "עדכן ווידג׳ט" : "פתיחת ווידג׳ט חדש") {
                     let profile = NewWidgetProfile(id: initialID ?? UUID(), name: name, backgroundImage: selectedImage, isDarkMode: isDarkMode, versesPerDay: versesPerDay)
                     onSave(profile)
                     dismiss()
@@ -137,7 +167,6 @@ struct ProfileEditorView: View {
                 .cornerRadius(12)
                 .font(.title2)
             }
-            .environment(\.layoutDirection, .rightToLeft)
             .navigationTitle("עיצוב ווידג׳ט")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
