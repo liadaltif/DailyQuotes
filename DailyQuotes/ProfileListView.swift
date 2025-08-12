@@ -12,11 +12,8 @@ struct ProfileListView: View {
             List {
                 ForEach(profiles) { profile in
                     HStack {
-                        Circle()
-                            .fill(profile.textColor.color)
-                            .frame(width: 20, height: 20)
+                        Spacer()
                         Text(profile.name)
-                            .font(.system(size: profile.textSize.size))
                     }
                     .contentShape(Rectangle())
                     .onTapGesture {
@@ -64,12 +61,9 @@ struct ProfileListView: View {
 struct ProfileEditorView: View {
     @Environment(\.dismiss) private var dismiss
     @State private var name: String
-    @State private var textColor: Color
-    @State private var backgroundColor: Color
-    @State private var useGallery: Bool
-    @State private var selectedImages: Set<String>
-    @State private var textSize: NewWidgetProfile.TextSize
-    @State private var rotation: Int
+    @State private var isDarkMode: Bool
+    @State private var selectedImage: String
+    @State private var versesPerDay: Int
     private let isEditing: Bool
     private let initialID: UUID?
     private let galleryImages = ["Photo1", "Photo2", "Photo3"]
@@ -81,82 +75,74 @@ struct ProfileEditorView: View {
         self.isEditing = profile != nil
         self.initialID = profile?.id
         _name = State(initialValue: profile?.name ?? "")
-        _textColor = State(initialValue: profile?.textColor.color ?? .primary)
-        _backgroundColor = State(initialValue: profile?.backgroundColor.color ?? .white)
-        _useGallery = State(initialValue: profile?.backgroundImages != nil)
-        _selectedImages = State(initialValue: Set(profile?.backgroundImages ?? []))
-        _textSize = State(initialValue: profile?.textSize ?? .medium)
-        _rotation = State(initialValue: profile?.rotation ?? 1)
+        _isDarkMode = State(initialValue: profile?.isDarkMode ?? false)
+        _selectedImage = State(initialValue: profile?.backgroundImage ?? galleryImages.first!)
+        _versesPerDay = State(initialValue: profile?.versesPerDay ?? 1)
     }
 
     var body: some View {
         NavigationView {
             Form {
-                TextField("Name", text: $name)
-                ColorPicker("Text Color", selection: $textColor)
-                Toggle("Use Image Gallery", isOn: $useGallery)
-                    .onChange(of: useGallery) { newValue in
-                        print("ProfileEditorView: useGallery ->", newValue)
-                    }
-                if useGallery {
-                    ScrollView(.horizontal) {
-                        HStack(spacing: 8) {
-                            ForEach(galleryImages, id: \.self) { name in
-                                Image(name)
-                                    .resizable()
-                                    .scaledToFill()
-                                    .frame(width: 80, height: 80)
-                                    .clipped()
-                                    .overlay(
-                                        RoundedRectangle(cornerRadius: 8)
-                                            .stroke(selectedImages.contains(name) ? Color.accentColor : Color.clear, lineWidth: 3)
-                                    )
-                                    .onTapGesture {
-                                        if selectedImages.contains(name) {
-                                            selectedImages.remove(name)
-                                        } else {
-                                            selectedImages.insert(name)
-                                        }
-                                    }
-                            }
+                TextField("", text: $name, prompt: Text("שם הפרופיל שלך"))
+                    .multilineTextAlignment(.trailing)
+
+                Toggle(isOn: $isDarkMode) {
+                    Text("מצב כהה/מצב בהיר")
+                        .frame(maxWidth: .infinity, alignment: .trailing)
+                }
+
+                ScrollView(.horizontal) {
+                    HStack(spacing: 8) {
+                        ForEach(galleryImages, id: \.self) { name in
+                            Image(name)
+                                .resizable()
+                                .scaledToFill()
+                                .frame(width: 80, height: 80)
+                                .clipped()
+                                .overlay(
+                                    Rectangle()
+                                        .stroke(selectedImage == name ? Color.accentColor : Color.clear, lineWidth: 3)
+                                )
+                                .onTapGesture {
+                                    selectedImage = name
+                                }
                         }
-                        .padding(.vertical, 4)
                     }
-                    .frame(height: 90)
-                } else {
-                    ColorPicker("Background Color", selection: $backgroundColor)
+                    .padding(.vertical, 4)
                 }
-                Picker("Text Size", selection: $textSize) {
-                    ForEach(NewWidgetProfile.TextSize.allCases, id: \.self) { size in
-                        Text(size.rawValue.capitalized).tag(size)
-                    }
-                }
-                .pickerStyle(.segmented)
+                .frame(height: 90)
+
                 HStack {
-                    Text("Rotation")
-                    Spacer()
-                    Button(action: { if rotation > 0 { rotation -= 1 } }) {
+                    Text("כמות פסוקים ביום")
+                        .frame(maxWidth: .infinity, alignment: .trailing)
+                    Button(action: { if versesPerDay > 0 { versesPerDay -= 1 } }) {
                         Image(systemName: "minus.circle")
                     }
-                    Text("\(rotation)")
+                    Text("\(versesPerDay)")
                         .frame(minWidth: 30)
-                    Button(action: { rotation += 1 }) {
+                    Button(action: { versesPerDay += 1 }) {
                         Image(systemName: "plus.circle")
                     }
                 }
+
+                Button("פתיחת ווידג׳ט חדש") {
+                    let profile = NewWidgetProfile(id: initialID ?? UUID(), name: name, backgroundImage: selectedImage, isDarkMode: isDarkMode, versesPerDay: versesPerDay)
+                    onSave(profile)
+                    dismiss()
+                }
+                .frame(maxWidth: .infinity)
+                .padding()
+                .background(Color.accentColor)
+                .foregroundColor(.white)
+                .cornerRadius(12)
+                .font(.title2)
             }
-            .navigationTitle(isEditing ? "Edit Profile" : "New Profile")
+            .environment(\.layoutDirection, .rightToLeft)
+            .navigationTitle("עיצוב ווידג׳ט")
+            .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button("Cancel") { dismiss() }
-                }
-                ToolbarItem(placement: .confirmationAction) {
-                    Button("Save") {
-                        let images = useGallery ? Array(selectedImages) : nil
-                        let profile = NewWidgetProfile(id: initialID ?? UUID(), name: name, textColor: CodableColor(textColor), backgroundColor: CodableColor(backgroundColor), backgroundImages: images, textSize: textSize, rotation: rotation)
-                        onSave(profile)
-                        dismiss()
-                    }
                 }
             }
         }

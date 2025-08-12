@@ -7,7 +7,6 @@
 
 
 import AppIntents
-import SwiftUI
 
 struct NewProfileEntity: AppEntity, Identifiable {
     static var typeDisplayRepresentation = TypeDisplayRepresentation(name: "Profile")
@@ -15,24 +14,20 @@ struct NewProfileEntity: AppEntity, Identifiable {
 
     let id: UUID
     let name: String
-    let textColor: CodableColor
-    let backgroundColor: CodableColor
-    let backgroundImages: [String]?
-    let textSize: NewWidgetProfile.TextSize
-    let rotation: Int
+    let backgroundImage: String?
+    let isDarkMode: Bool
+    let versesPerDay: Int
 
     init(profile: NewWidgetProfile) {
         self.id = profile.id
         self.name = profile.name
-        self.textColor = profile.textColor
-        self.backgroundColor = profile.backgroundColor
-        self.backgroundImages = profile.backgroundImages
-        self.textSize = profile.textSize
-        self.rotation = profile.rotation
+        self.backgroundImage = profile.backgroundImage
+        self.isDarkMode = profile.isDarkMode
+        self.versesPerDay = profile.versesPerDay
     }
 
     var profile: NewWidgetProfile {
-        NewWidgetProfile(id: id, name: name, textColor: textColor, backgroundColor: backgroundColor, backgroundImages: backgroundImages, textSize: textSize, rotation: rotation)
+        NewWidgetProfile(id: id, name: name, backgroundImage: backgroundImage, isDarkMode: isDarkMode, versesPerDay: versesPerDay)
     }
 
     var displayRepresentation: DisplayRepresentation {
