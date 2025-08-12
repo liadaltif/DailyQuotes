@@ -13,8 +13,14 @@ struct DailyQuotesWidgetView: View {
                     .scaledToFill()
                     .clipped()
             } else {
-                Color.black.opacity(0.2)
+                (entry.profile?.backgroundColor.color ?? Color.black.opacity(0.2))
             }
+
+            Text(entry.quote)
+                .font(.system(size: entry.profile?.textSize.size ?? 16))
+                .foregroundColor(entry.profile?.textColor.color ?? .white)
+                .multilineTextAlignment(.center)
+                .padding()
         }
         .ignoresSafeArea()
         .applyWidgetBackground()
@@ -29,6 +35,5 @@ private extension View {
         } else {
             self
         }
-
     }
 }
