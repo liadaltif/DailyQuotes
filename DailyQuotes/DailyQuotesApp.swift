@@ -1,14 +1,9 @@
-//
-//  DailyQuotesApp.swift
-//  DailyQuotes
-//
-//  Created by Liad Altif on 04/08/2025.
-//
-
 import SwiftUI
 
 @main
 struct DailyQuotesApp: App {
+    @AppStorage("hasSeenOnboarding") private var hasSeenOnboarding: Bool = false
+
     init() {
         print("🚀 App started")
     }
@@ -16,6 +11,11 @@ struct DailyQuotesApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
+            if hasSeenOnboarding {
+                ContentView()
+            } else {
+                OnboardingView()
+            }
         }
     }
 }

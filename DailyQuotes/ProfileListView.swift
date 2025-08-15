@@ -8,7 +8,7 @@ struct ProfileListView: View {
     @State private var editingProfile: NewWidgetProfile?
 
     var body: some View {
-        NavigationView {
+        NavigationStack {
             List {
                 ForEach(profiles) { profile in
                     HStack {
@@ -79,7 +79,7 @@ struct ProfileEditorView: View {
     }
 
     var body: some View {
-        NavigationView {
+        NavigationStack {
             VStack {
                 Form {
                     TextField("", text: $name, prompt: Text("שם הפרופיל שלך"))

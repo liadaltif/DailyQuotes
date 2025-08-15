@@ -10,7 +10,7 @@ struct WidgetSelectionView: View {
     @State private var selected: QuoteOption?
 
     var body: some View {
-        NavigationView {
+        NavigationStack {
             ScrollView {
                 LazyVGrid(columns: [GridItem(.adaptive(minimum: 160), spacing: 16)], spacing: 16) {
                     ForEach(quotes, id: \.self) { quote in
